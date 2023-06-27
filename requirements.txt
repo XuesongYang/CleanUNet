@@ -1,0 +1,6 @@
+numpy
+soundfile
+librosa
+configparser
+pandas
+onnxruntime
