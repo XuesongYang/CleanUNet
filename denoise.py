@@ -58,7 +58,7 @@ def denoise(output_directory, ckpt_iter, subset, dump=False):
     Parameters:
     output_directory (str):         save generated speeches to this path
     ckpt_iter (int or 'max'):       the pretrained checkpoint to be loaded; 
-                                    automitically selects the maximum iteration if 'max' is selected
+                                    automatically selects the maximum iteration if 'max' is selected
     subset (str):                   training, testing, validation
     dump (bool):                    whether save enhanced (denoised) audio
     """

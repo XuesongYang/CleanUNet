@@ -43,6 +43,7 @@ class CleanNoisyPairDataset(Dataset):
                            os.path.join(root, 'training_set/noisy', 'fileid_{}.wav'.format(i))) for i in range(N_clean)]
         
         elif subset == "testing":
+            # TODO @xueyang: modify pattern to fit LibriTTS wav file directory structure.
             sortkey = lambda name: '_'.join(name.split('_')[-2:])  # specific for dns due to test sample names
             _p = os.path.join(root, 'datasets/test_set/synthetic/no_reverb')  # path for DNS
             
