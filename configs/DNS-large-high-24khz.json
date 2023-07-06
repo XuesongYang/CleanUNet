@@ -45,7 +45,7 @@
         "sample_rate": 24000
     },
     "gen_config":{
-        "output_directory": "./exp/LibriTTS-large-high"
+        "output_directory": "./exp/LibriTTS-large-high/24k"
     },
     "dist_config": {
         "dist_backend": "nccl",

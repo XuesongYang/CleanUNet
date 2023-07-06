@@ -42,10 +42,10 @@
     "trainset_config": {
         "root": "./LibriTTS",
         "crop_length_sec": 10,
-        "sample_rate": 24000
+        "sample_rate": 48000
     },
     "gen_config":{
-        "output_directory": "./exp/LibriTTS-large-high"
+        "output_directory": "./exp/LibriTTS-large-high/48k"
     },
     "dist_config": {
         "dist_backend": "nccl",

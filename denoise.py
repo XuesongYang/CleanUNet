@@ -114,7 +114,8 @@ def denoise(output_directory, ckpt_iter, subset, dump=False):
         generated_audio = sampling(net, noisy_audio)
         
         if dump:
-            wavwrite(os.path.join(speech_directory, 'enhanced_{}'.format(filename)), 
+            #wavwrite(os.path.join(speech_directory, 'enhanced_{}'.format(filename)),
+            wavwrite(os.path.join(speech_directory, filename),
                     trainset_config["sample_rate"],
                     generated_audio[0].squeeze().cpu().numpy())
         else:

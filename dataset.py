@@ -68,6 +68,7 @@ class CleanNoisyPairDataset(Dataset):
         fileid = self.files[n]
         clean_audio, sample_rate_clean = torchaudio.load(fileid[0])
         noisy_audio, sample_rate_noisy = torchaudio.load(fileid[1])
+        print(f"sample_rate_noisy={sample_rate_noisy}, sample_rate_clean={sample_rate_clean}")
         assert sample_rate_clean == sample_rate_noisy, f"sample_rate_clean={sample_rate_clean}, sample_rate_noisy={sample_rate_noisy}"
         clean_audio, noisy_audio = clean_audio.squeeze(0), noisy_audio.squeeze(0)
         assert len(clean_audio) == len(noisy_audio), f"clean_audio={clean_audio}, length={len(clean_audio)}\nnoisy_audio={noisy_audio}, length={len(noisy_audio)}"
