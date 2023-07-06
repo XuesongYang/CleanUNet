@@ -34,28 +34,29 @@ class CleanNoisyPairDataset(Dataset):
         self.crop_length_sec = crop_length_sec
         self.subset = subset
 
-        N_clean = len(os.listdir(os.path.join(root, 'training_set/clean')))
-        N_noisy = len(os.listdir(os.path.join(root, 'training_set/noisy')))
-        assert N_clean == N_noisy
-
         if subset == "training":
+            N_clean = len(os.listdir(os.path.join(root, 'training_set/clean')))
+            N_noisy = len(os.listdir(os.path.join(root, 'training_set/noisy')))
+            assert N_clean == N_noisy
+
             self.files = [(os.path.join(root, 'training_set/clean', 'fileid_{}.wav'.format(i)),
                            os.path.join(root, 'training_set/noisy', 'fileid_{}.wav'.format(i))) for i in range(N_clean)]
         
         elif subset == "testing":
             # TODO @xueyang: modify pattern to fit LibriTTS wav file directory structure.
-            sortkey = lambda name: '_'.join(name.split('_')[-2:])  # specific for dns due to test sample names
+            # sortkey = lambda name: '_'.join(name.split('_')[-2:])  # specific for dns due to test sample names
             _p = os.path.join(root, 'datasets/test_set/synthetic/no_reverb')  # path for DNS
             
-            clean_files = os.listdir(os.path.join(_p, 'clean'))
-            noisy_files = os.listdir(os.path.join(_p, 'noisy'))
+            clean_files = sorted(os.listdir(os.path.join(_p, 'clean')))
+            noisy_files = sorted(os.listdir(os.path.join(_p, 'noisy')))
             
-            clean_files.sort(key=sortkey)
-            noisy_files.sort(key=sortkey)
+            # clean_files.sort(key=sortkey)
+            # noisy_files.sort(key=sortkey)
 
             self.files = []
             for _c, _n in zip(clean_files, noisy_files):
-                assert sortkey(_c) == sortkey(_n)
+                # assert sortkey(_c) == sortkey(_n)
+                assert os.path.basename(_c) == os.path.basename(_n)
                 self.files.append((os.path.join(_p, 'clean', _c), 
                                    os.path.join(_p, 'noisy', _n)))
             self.crop_length_sec = 0
@@ -65,12 +66,13 @@ class CleanNoisyPairDataset(Dataset):
 
     def __getitem__(self, n):
         fileid = self.files[n]
-        clean_audio, sample_rate = torchaudio.load(fileid[0])
-        noisy_audio, sample_rate = torchaudio.load(fileid[1])
+        clean_audio, sample_rate_clean = torchaudio.load(fileid[0])
+        noisy_audio, sample_rate_noisy = torchaudio.load(fileid[1])
+        assert sample_rate_clean == sample_rate_noisy, f"sample_rate_clean={sample_rate_clean}, sample_rate_noisy={sample_rate_noisy}"
         clean_audio, noisy_audio = clean_audio.squeeze(0), noisy_audio.squeeze(0)
-        assert len(clean_audio) == len(noisy_audio)
+        assert len(clean_audio) == len(noisy_audio), f"clean_audio={clean_audio}, length={len(clean_audio)}\nnoisy_audio={noisy_audio}, length={len(noisy_audio)}"
 
-        crop_length = int(self.crop_length_sec * sample_rate)
+        crop_length = int(self.crop_length_sec * sample_rate_clean)
         assert crop_length < len(clean_audio)
 
         # random crop

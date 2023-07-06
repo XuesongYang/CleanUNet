@@ -1,5 +1,7 @@
 # Noisy: test-other@LibriTTS
+#rm -v datasets/test_set/synthetic/no_reverb/noisy/*.wav
 #find ~/datasets/LibriTTS/LibriTTS/test-other -name "*.wav" | xargs -I{} ln -s -v {} datasets/test_set/synthetic/no_reverb/noisy/
 
-# Clean: test-other@LibriTTS-R
-find ~/datasets/LibriTTS_R/LibriTTS_R/test-other -name "*.wav" | xargs -I{} ln -s -v {} datasets/test_set/synthetic/no_reverb/clean/
+# Clean: test-other@LibriTTS
+rm -v datasets/test_set/synthetic/no_reverb/clean/*.wav
+find ~/datasets/LibriTTS/LibriTTS/test-other -name "*.wav" | xargs -I{} ln -s -v {} datasets/test_set/synthetic/no_reverb/clean/

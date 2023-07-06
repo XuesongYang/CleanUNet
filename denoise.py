@@ -57,7 +57,7 @@ def denoise(output_directory, ckpt_iter, subset, dump=False):
 
     Parameters:
     output_directory (str):         save generated speeches to this path
-    ckpt_iter (int or 'max'):       the pretrained checkpoint to be loaded; 
+    ckpt_iter (int or 'max'):       the pretrained checkpoint to be loaded;
                                     automatically selects the maximum iteration if 'max' is selected
     subset (str):                   training, testing, validation
     dump (bool):                    whether save enhanced (denoised) audio
@@ -105,10 +105,10 @@ def denoise(output_directory, ckpt_iter, subset, dump=False):
     # inference
     all_generated_audio = []
     all_clean_audio = []
-    sortkey = lambda name: '_'.join(name.split('/')[-1].split('_')[1:])
-    for clean_audio, noisy_audio, fileid in tqdm(dataloader):
-        filename = sortkey(fileid[0][0])
-
+    # sortkey = lambda name: '_'.join(name.split('/')[-1].split('_')[1:])
+    for clean_audio, noisy_audio, field in tqdm(dataloader):
+        # filename = sortkey(fileid[0][0])
+        filename = os.path.basename(field[0][0])
         noisy_audio = noisy_audio.cuda()
         LENGTH = len(noisy_audio[0].squeeze())
         generated_audio = sampling(net, noisy_audio)

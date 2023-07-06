@@ -5,4 +5,6 @@ configparser
 pandas
 onnxruntime
 tqdm
-
+chardet
+ipython
+ipdb
